@@ -5,24 +5,38 @@ namespace App\Services\Admin;
 
 
 use App\Author;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 class AuthorService
 {
     /**
-     * @param $request
+     * @param string $name
+     * @param string $bio
+     * @return array
      */
-    public function createAuthor ($request) {
-        Author::create([
-            'name' => $request->name,
-            'bio' => $request->bio,
-        ]);
+    public function create (string $name, string $bio) :array {
+        try {
+            Author::create([
+                'name' => $name,
+                'bio' => $bio,
+            ]);
+            return [
+                'success' => true,
+                'message' => __('Author has been created')
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => __('Failed to create Author')
+            ];
+        }
     }
 
     /**
      * @return Author[]|Collection
      */
-    public function allAuthors () {
+    public function authors () {
         return Author::all();
     }
 
@@ -30,23 +44,53 @@ class AuthorService
      * @param $id
      * @return mixed
      */
-    public function findAuthor ($id) {
+    public function find (int $id) {
         return Author::find($id);
     }
 
     /**
-     * @param $author
-     * @param $request
+     * @param int $author_id
+     * @param string $name
+     * @param string $bio
+     * @return array
      */
-    public function updateAuthor ($author,$request) {
-        $author->update([
-            'name' => $request->name,
-            'bio' => $request->bio,
-        ]);
+    public function update (int $author_id, string $name, string $bio) :array {
+        try {
+            $author = Author::where('id', $author_id)->update([
+                'name' => $name,
+                'bio' => $bio,
+            ]);
+            if (!$author) {
+                return ['success' => false, 'message' => __('Author not found')];
+            }
+
+            return [
+                'success' => true,
+                'message' => __('Author has been updated')
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => __('Something went wrong')
+            ];
+        }
     }
 
-    public function deleteAuthor ($author) {
-       $author->delete();
+    /**
+     * @param int $author_id
+     * @return array
+     */
+    public function delete (int $author_id) :array {
+        try {
+            $author = Author::where('id', $author_id)->delete();
+            if (!$author) {
+                return ['success' => false, 'message' => __('Author not found')];
+            }
+
+            return ['success' => true, 'message' => __('Author has been deleted')];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => __('Something went wrong')];
+        }
     }
 
 }
