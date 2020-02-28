@@ -19,4 +19,7 @@ class BookInfo extends Model
         'description'
     ];
 
+    public function book () {
+        return $this->belongsTo(Book::class);
+    }
 }
