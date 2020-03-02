@@ -16,7 +16,10 @@ class CreateBookInfosTable extends Migration
         Schema::create('book_infos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('book_id');
+            $table->foreign('book_id')->references('id')->on('books')->onDelete('cascade');
             $table->float('price');
+            $table->unsignedInteger('quantity');
+            $table->tinyInteger('in_stock')->default(BOOK_IN_STOCK);
             $table->integer('total_pages');
             $table->string('isbn_number');
             $table->string('language');

@@ -6,6 +6,7 @@ namespace App\Services\Admin;
 
 use App\PaymentMethod;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 
 class PaymentMethodService
 {
@@ -36,6 +37,13 @@ class PaymentMethodService
      */
     public function find (int $id) {
         return PaymentMethod::find($id);
+    }
+
+    /**
+     * @return PaymentMethod[]|Collection
+     */
+    public function paymentMethods () {
+        return PaymentMethod::all();
     }
 
     /**

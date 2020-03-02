@@ -9,11 +9,12 @@ class BookInfo extends Model
     protected $fillable = [
         'book_id',
         'price',
+        'quantity',
+        'in_stock',
         'language',
         'published_on',
         'total_pages',
         'isbn_number',
-        'price',
         'characters',
         'series_name',
         'description'
