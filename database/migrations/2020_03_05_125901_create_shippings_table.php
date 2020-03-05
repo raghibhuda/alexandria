@@ -16,6 +16,7 @@ class CreateShippingsTable extends Migration
         Schema::create('shippings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('shipping_method_id');
             $table->tinyInteger('status')->default(SHIPPING_PENDING);
             $table->text('address');
             $table->dateTime('shipped_on');
