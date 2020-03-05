@@ -28,23 +28,23 @@ class BookService
             $book = $this->createBook($name, $category_id, $author_id, $publication_id);
             if (!$book['success']) {
                 DB::rollBack();
-                return ['success' => false, 'message' => 'Something went wrong'];
+                return ['success' => false, 'message' => __('Something went wrong')];
             }
             $bookInfo = $this->createBookInfo($book['book_id'],$data);
             if (!$bookInfo['success']) {
                 DB::rollBack();
-                return ['success' => false, 'message' => 'Something went wrong'];
+                return ['success' => false, 'message' => __('Something went wrong')];
             }
             DB::commit();
             return [
                 'success' => true,
-                'message' => 'Book has been created'
+                'message' => __('Book has been created')
             ];
         } catch (Exception $e) {
             DB::rollBack();
             return [
                 'success' => false,
-                'message' => 'Failed to creat book'
+                'message' => __('Failed to creat book')
             ];
         }
     }
@@ -68,12 +68,12 @@ class BookService
             return [
                 'success' => true,
                 'book_id' => $book->id,
-                'message' => 'Only book has been created'
+                'message' => __('Only book has been created')
             ];
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Failed to create only book'
+                'message' => __('Failed to create only book')
             ];
         }
     }
@@ -100,7 +100,7 @@ class BookService
             ]);
             return [
                 'success' => true,
-                'message' => 'Book Info has been created'
+                'message' => __('Book Info has been created')
             ];
         } catch (Exception $e) {
             return [
@@ -139,12 +139,12 @@ class BookService
             $book = $this->updateBook($book_id,$name,$category_id,$author_id,$publication_id);
             if (!$book['success']) {
                 DB::rollBack();
-                return ['success' => false, 'message' => 'Something went wrong'];
+                return ['success' => false, 'message' => __('Something went wrong')];
             }
             $booInfo = $this->updateBookInfo($book_id,$data);
             if (!$booInfo['success']) {
                 DB::rollBack();
-                return ['success' => false, 'message' => 'Something went wrong'];
+                return ['success' => false, 'message' => __('Something went wrong')];
             }
             DB::commit();
             return [
@@ -170,20 +170,26 @@ class BookService
      */
     private function updateBook (int $book_id,string $name , int $category_id , int $author_id , int $publication_id) : array {
         try {
-            Book::where('id',$book_id)->update([
+            $book = Book::where('id',$book_id)->update([
                 'name' => $name,
                 'category_id' => $category_id,
                 'author_id' => $author_id,
                 'publication_id' => $publication_id
             ]);
+            if (!$book) {
+                return [
+                    'success' => false,
+                    'message' => __('Book not found')
+                ];
+            }
             return [
                 'success' => true,
-                'message' => 'Only book has been created'
+                'message' => __('Only book has been updated')
             ];
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Failed to create only book'
+                'message' => __('Failed to create only book')
             ];
         }
     }
@@ -195,7 +201,7 @@ class BookService
      */
     private function updateBookInfo (int $book_id , array $data) :array {
         try {
-                BookInfo::where('book_id',$book_id)->update([
+            $bookInfo =BookInfo::where('book_id',$book_id)->update([
                 'price'=> $data['price'],
                 'quantity' => $data['quantity'],
                 'in_stock'=> $data['in_stock'],
@@ -207,9 +213,15 @@ class BookService
                 'series_name' => $data['series_name'],
                 'description' => $data['description'],
             ]);
+            if (!$bookInfo) {
+                return [
+                    'success' => false,
+                    'message' => __('Book Info not found')
+                ];
+            }
             return [
                 'success' => true,
-                'message' => 'Book Info has been updated'
+                'message' => __('Book Info has been updated')
             ];
         } catch (Exception $e) {
             return [
@@ -229,17 +241,17 @@ class BookService
             if(!$book) {
                 return [
                     'success' => false,
-                    'message' => 'Book not found'
+                    'message' => __('Book not found')
                 ];
             }
             return [
                 'success' => true,
-                'message' => 'Book has been deleted'
+                'message' => __('Book has been deleted')
             ];
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Failed to delete book'
+                'message' => __('Failed to delete book')
             ];
         }
     }

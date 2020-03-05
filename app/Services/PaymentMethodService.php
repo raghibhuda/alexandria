@@ -66,7 +66,7 @@ class PaymentMethodService
         } catch (Exception $e) {
             return [
                 'success' => true,
-                'message' => 'Something went wrong'
+                'message' => __('Something went wrong')
             ];
         }
     }
@@ -88,7 +88,7 @@ class PaymentMethodService
         } catch (Exception $e) {
             return [
                 'success' => true,
-                'message' => 'Something went wrong'
+                'message' => __('Something went wrong')
             ];
         }
     }

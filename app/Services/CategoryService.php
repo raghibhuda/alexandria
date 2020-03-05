@@ -67,7 +67,7 @@ class CategoryService
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Something went wrong'
+                'message' => __('Something went wrong')
             ];
         }
 
@@ -90,7 +90,7 @@ class CategoryService
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Something went wrong'
+                'message' => __('Something went wrong')
             ];
         }
     }

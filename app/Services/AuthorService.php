@@ -71,7 +71,7 @@ class AuthorService
         } catch (Exception $e) {
             return [
                 'success' => false,
-                'message' => __('Something went wrong')
+                'message' => __(__('Something went wrong'))
             ];
         }
     }
