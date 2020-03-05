@@ -9,3 +9,6 @@ const BOOK_OUT_OF_STOCK = 2;
 
 const SHIPPING_PENDING = 1;
 const SHIPPED = 2;
+
+const PAYMENT_SUCCESS = 1;
+const PAYMENT_FAILED = 2;
