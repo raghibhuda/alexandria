@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -36,7 +38,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return HasOne
+     */
     public function userInfo () {
         return $this->hasOne(User::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function payments () {
+        return $this->hasMany(Payment::class);
     }
 }
