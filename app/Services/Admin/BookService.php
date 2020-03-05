@@ -19,45 +19,21 @@ class BookService
      * @param int $category_id
      * @param int $author_id
      * @param int $publication_id
-     * @param int $book_id
-     * @param float $price
-     * @param int $quantity
-     * @param int $in_stock
-     * @param int $total_pages
-     * @param string $isbn_number
-     * @param string $language
-     * @param string $characters
-     * @param string $series_name
-     * @param string $description
-     * @param string $published_on
+     * @param array $data
      * @return array
      */
-    public function create (string $name , int $category_id , int $author_id , int $publication_id , float $price,int $quantity,int $in_stock , int $total_pages , string $isbn_number , string $language ,string $characters, string $series_name , string $description , string $published_on) :array {
+    public function create (string $name , int $category_id , int $author_id , int $publication_id , array $data) :array {
         try {
             DB::beginTransaction();
-            $book  = Book::create([
-                'name' => $name,
-                'category_id' => $category_id,
-                'author_id' => $author_id,
-                'publication_id' => $publication_id
-            ]);
-
-            if (!$book) {
+            $book = $this->createBook($name, $category_id, $author_id, $publication_id);
+            if (!$book['success']) {
+                DB::rollBack();
                 return ['success' => false, 'message' => 'Something went wrong'];
-            }else{
-                BookInfo::create([
-                    'book_id' => $book->id,
-                    'price'=> $price,
-                    'quantity' => $quantity,
-                    'in_stock'=> $in_stock,
-                    'language' => $language,
-                    'published_on' => $published_on,
-                    'total_pages' => $total_pages,
-                    'isbn_number' => $isbn_number,
-                    'characters' => $characters,
-                    'series_name' => $series_name,
-                    'description' => $description,
-                ]);
+            }
+            $bookInfo = $this->createBookInfo($book['book_id'],$data);
+            if (!$bookInfo['success']) {
+                DB::rollBack();
+                return ['success' => false, 'message' => 'Something went wrong'];
             }
             DB::commit();
             return [
@@ -74,6 +50,66 @@ class BookService
     }
 
     /**
+     * @param string $name
+     * @param int $category_id
+     * @param int $author_id
+     * @param int $publication_id
+     * @return array
+     */
+    private function createBook (string $name , int $category_id , int $author_id , int $publication_id) {
+        try {
+            $book  = Book::create([
+                'name' => $name,
+                'category_id' => $category_id,
+                'author_id' => $author_id,
+                'publication_id' => $publication_id
+            ]);
+
+            return [
+                'success' => true,
+                'book_id' => $book->id,
+                'message' => 'Only book has been created'
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to create only book'
+            ];
+        }
+    }
+
+    /**
+     * @param int $book_id
+     * @param array $data
+     * @return array
+     */
+    private function createBookInfo (int $book_id , array $data) {
+        try {
+            BookInfo::create([
+                'book_id' => $book_id,
+                'price'=> $data['price'],
+                'quantity' => $data['quantity'],
+                'in_stock'=> $data['in_stock'],
+                'language' => $data['language'],
+                'published_on' => $data['published_on'],
+                'total_pages' => $data['total_pages'],
+                'isbn_number' => $data['isbn_number'],
+                'characters' => $data['characters'],
+                'series_name' => $data['series_name'],
+                'description' => $data['description'],
+            ]);
+            return [
+                'success' => true,
+                'message' => 'Book Info has been created'
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to create Book Info'
+            ];
+        }
+    }
+    /**
      * @param int $id
      * @return Book|Book[]|Builder|Builder[]|Collection|Model|null
      */
@@ -89,47 +125,26 @@ class BookService
     }
 
     /**
+     * @param int $book_id
      * @param string $name
      * @param int $category_id
      * @param int $author_id
      * @param int $publication_id
-     * @param int $book_id
-     * @param float $price
-     * @param int $quantity
-     * @param int $in_stock
-     * @param int $total_pages
-     * @param string $isbn_number
-     * @param string $language
-     * @param string $characters
-     * @param string $series_name
-     * @param string $description
-     * @param string $published_on
+     * @param array $data
      * @return array
      */
-    public function update(string $name , int $category_id , int $author_id , int $publication_id , int $book_id , float $price,int $quantity,int $in_stock , int $total_pages , string $isbn_number , string $language ,string $characters, string $series_name , string $description , string $published_on) :array {
+    public function update(int $book_id,string $name , int $category_id , int $author_id , int $publication_id,array $data) :array {
         try {
             DB::beginTransaction();
-            $book  = Book::where('id',$book_id)->update([
-                'name' => $name,
-                'category_id' => $category_id,
-                'publication_id' => $publication_id,
-                'author_id' => $author_id,
-            ]);
-            $bookInfo = BookInfo::where('book_id',$book_id)->update([
-                'book_id' => $book_id,
-                'price'=> $price,
-                'quantity' => $quantity,
-                'in_stock'=> $in_stock,
-                'language' => $language,
-                'published_on' => $published_on,
-                'total_pages' => $total_pages,
-                'isbn_number' => $isbn_number,
-                'characters' => $characters,
-                'series_name' => $series_name,
-                'description' => $description,
-            ]);
-            if(!$book || !$bookInfo) {
-                return ['success' => false, 'message' => 'Book not found'];
+            $book = $this->updateBook($book_id,$name,$category_id,$author_id,$publication_id);
+            if (!$book['success']) {
+                DB::rollBack();
+                return ['success' => false, 'message' => 'Something went wrong'];
+            }
+            $booInfo = $this->updateBookInfo($book_id,$data);
+            if (!$booInfo['success']) {
+                DB::rollBack();
+                return ['success' => false, 'message' => 'Something went wrong'];
             }
             DB::commit();
             return [
@@ -141,6 +156,65 @@ class BookService
             return [
                 'success' => false,
                 'message' => 'Failed to update book'
+            ];
+        }
+    }
+
+    /**
+     * @param int $book_id
+     * @param string $name
+     * @param int $category_id
+     * @param int $author_id
+     * @param int $publication_id
+     * @return array
+     */
+    private function updateBook (int $book_id,string $name , int $category_id , int $author_id , int $publication_id) : array {
+        try {
+            Book::where('id',$book_id)->update([
+                'name' => $name,
+                'category_id' => $category_id,
+                'author_id' => $author_id,
+                'publication_id' => $publication_id
+            ]);
+            return [
+                'success' => true,
+                'message' => 'Only book has been created'
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to create only book'
+            ];
+        }
+    }
+
+    /**
+     * @param int $book_id
+     * @param array $data
+     * @return array
+     */
+    private function updateBookInfo (int $book_id , array $data) :array {
+        try {
+                BookInfo::where('book_id',$book_id)->update([
+                'price'=> $data['price'],
+                'quantity' => $data['quantity'],
+                'in_stock'=> $data['in_stock'],
+                'language' => $data['language'],
+                'published_on' => $data['published_on'],
+                'total_pages' => $data['total_pages'],
+                'isbn_number' => $data['isbn_number'],
+                'characters' => $data['characters'],
+                'series_name' => $data['series_name'],
+                'description' => $data['description'],
+            ]);
+            return [
+                'success' => true,
+                'message' => 'Book Info has been updated'
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to update Book Info'
             ];
         }
     }
@@ -169,7 +243,5 @@ class BookService
             ];
         }
     }
-
-
 
 }
