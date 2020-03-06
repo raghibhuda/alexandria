@@ -19,7 +19,7 @@ class CreateShippingsTable extends Migration
             $table->unsignedBigInteger('shipping_method_id');
             $table->tinyInteger('status')->default(SHIPPING_PENDING);
             $table->text('address');
-            $table->dateTime('shipped_on');
+            $table->dateTime('shipped_on')->nullable();
             $table->timestamps();
         });
     }

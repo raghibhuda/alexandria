@@ -43,7 +43,13 @@ class Book extends Model
      * @return BelongsTo
      */
     public function order () {
-        return$this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
+    public function cart () {
+        return $this->belongsTo(Cart::class);
+    }
 }
