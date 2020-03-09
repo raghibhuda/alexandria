@@ -24,7 +24,7 @@ class ShippingMethodController extends Controller
      */
     public function create (Request $request) {
         try {
-            //Validation required
+            // TODO: Validation required
             $name = $request->name;
             $createShippingMethodResponse = $this->shippingMethodService->create($name);
             return response()->json([
@@ -45,7 +45,7 @@ class ShippingMethodController extends Controller
      */
     public function update (Request $request) {
         try {
-            //Validation required
+            // TODO: Validation required
             $shipping_method_id = $request->shipping_method_id;
             $name = $request->name;
             $updateShippingMethodResponse = $this->shippingMethodService->update($shipping_method_id,$name);

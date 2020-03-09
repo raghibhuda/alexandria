@@ -17,7 +17,6 @@ class CreateCartsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
-            $table->unsignedInteger('quantity');
             $table->timestamps();
         });
     }
