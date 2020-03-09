@@ -52,4 +52,11 @@ class Book extends Model
     public function cart () {
         return $this->belongsTo(Cart::class);
     }
+
+    /**
+     * @return BelongsTo
+     */
+    public function wishList () {
+        return $this->belongsTo(WishList::class);
+    }
 }
