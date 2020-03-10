@@ -65,4 +65,23 @@ class WishListService
             ];
         }
     }
+
+    /**
+     * @param int $user_id
+     * @return array
+     */
+    public function viewWishList (int $user_id) :array {
+        $wishList = WishList::where('user_id',$user_id)->get();
+        if(!$wishList) {
+            return [
+                'success' => false,
+                'message' => __('Wish List is empty')
+            ];
+        }
+        return [
+            'success' => true,
+            'wishList' => $wishList,
+            'message' => __('Books have been fetched')
+        ];
+    }
 }
