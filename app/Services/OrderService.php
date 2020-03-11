@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Order;
 use App\Shipping;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class OrderService
@@ -84,4 +85,34 @@ class OrderService
         }
     }
 
+    /**
+     * @return Order[]|Collection
+     */
+    public function orders () {
+        return Order::all();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function find (int $id) {
+        $order = Order::find($id);
+        if (!$order) {
+           return ['success' => false, 'message' => 'Order not found'];
+        }
+        return ['success' => true,'order' => $order , 'message' => 'Order has been found'];
+    }
+
+    /**
+     * @param int $userId
+     * @return array
+     */
+    public function get (int $userId) {
+        $orders = Order::where('user_id',$userId);
+        if (!$orders) {
+            return ['success' => false, 'message' => 'User not found'];
+        }
+        return ['success' => true,'orders' => $orders , 'message' => 'Orders have been fetched'];
+    }
 }
