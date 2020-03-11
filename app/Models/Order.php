@@ -9,7 +9,17 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id','book_id','payment_id','shipping_id','total_amount','vat','tax','quantity'];
+    protected $fillable = [
+        'user_id',
+        'book_id',
+        'payment_method_id',
+        'shipping_id',
+        'total_amount',
+        'vat',
+        'tax',
+        'quantity',
+        'status'
+    ];
 
     /**
      * @return BelongsTo
@@ -23,13 +33,6 @@ class Order extends Model
      */
     public function shipping () {
         return $this->hasOne(Shipping::class);
-    }
-
-    /**
-     * @return HasOne
-     */
-    public function payment () {
-        return $this->hasOne(Payment::class);
     }
 
     /**
