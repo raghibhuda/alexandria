@@ -27,8 +27,15 @@ class OrderService
                 return ['success' => false, 'message' => __('Something went wrong')];
             }
 
-            $order = $this->createOrder($shipping['shipping_id'],$userId,$orderData);
+            $order = $this->createOrder($shipping['shippingId'],$userId,$orderData);
             if (!$order['success']) {
+                DB::rollBack();
+                return ['success' => false, 'message' => __('Something went wrong')];
+            }
+
+            $cart = new CartService();
+            $carResponse = $cart->remove($order['bookId']);
+            if (!$carResponse['success']) {
                 DB::rollBack();
                 return ['success' => false, 'message' => __('Something went wrong')];
             }
@@ -48,7 +55,7 @@ class OrderService
      */
     public function createOrder (int $userId,int $shippingId, array $orderData) {
         try {
-            Order::create ([
+            $order = Order::create ([
                 'user_id' => $userId,
                 'shipping_id' => $shippingId,
                 'book_id' => $orderData['bookId'],
@@ -59,7 +66,10 @@ class OrderService
                 'tax' => $orderData['tax'],
                 'status' => $orderData['status']
             ]);
-            return ['success' => true, 'message' => __('Order has been created')];
+            return [
+                'success' => true,
+                'bookId' => $order->book_id,
+                'message' => __('Order has been created')];
         } catch (Exception $e) {
             return ['success' => false, 'message' => __('Failed to create order')];
         }
@@ -79,7 +89,7 @@ class OrderService
                 'shipped_on' => $shippingData['shippedOn'],
                 'contact' => $shippingData['address'],
             ]);
-            return ['success' => true, 'shipping_id' => $shipping->id, 'message' => __('Sipping has been created')];
+            return ['success' => true, 'shippingId' => $shipping->id, 'message' => __('Sipping has been created')];
         } catch (Exception $e) {
             return ['success' => true, 'message' => __('Failed to create shipping')];
         }
