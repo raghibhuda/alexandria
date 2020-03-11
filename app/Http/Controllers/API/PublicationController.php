@@ -27,15 +27,9 @@ class PublicationController extends Controller
             //Validation required
             $name = $request->name;
             $createPublicationResponse = $this->publicationService->create($name);
-            return response()->json([
-                'success' => true,
-                'message' => $createPublicationResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $createPublicationResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -46,18 +40,12 @@ class PublicationController extends Controller
     public function update (Request $request) {
         try {
             //Validation required
-            $publicationId = $request->publication_id;
+            $publicationId = $request->publicationId;
             $name = $request->name;
             $updatePublicationResponse = $this->publicationService->update($publicationId,$name);
-            return response()->json([
-                'success' => true,
-                'message' => $updatePublicationResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $updatePublicationResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -67,10 +55,7 @@ class PublicationController extends Controller
      */
     public function find ($id) {
         $publication = $this->publicationService->find($id);
-        return response()->json([
-            'success' => false,
-            'book' => $publication,
-        ]);
+        return response()->json(['success' => false, 'book' => $publication]);
     }
 
     /**
@@ -78,10 +63,7 @@ class PublicationController extends Controller
      */
     public function publications () {
         $publications = $this->publicationService->publications();
-        return response()->json([
-            'success' => false,
-            'book' => $publications,
-        ]);
+        return response()->json(['success' => false, 'book' => $publications]);
     }
 
     /**
@@ -91,15 +73,9 @@ class PublicationController extends Controller
     public function delete ($id) {
         try {
             $deletePublicationResponse = $this->publicationService->delete($id);
-            return response()->json([
-                'success' => true,
-                'message' => $deletePublicationResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $deletePublicationResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => true,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => true, 'message' => $e->getMessage()]);
         }
     }
 }

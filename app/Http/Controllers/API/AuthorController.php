@@ -28,34 +28,22 @@ class AuthorController extends Controller
             $name = $request->name;
             $bio = $request->bio;
             $createAuthorResponse = $this->authorService->create($name,$bio);
-            return response()->json([
-                'success' => true,
-                'message' => $createAuthorResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $createAuthorResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     public function update (Request $request) {
         try {
             //Validation required
-            $authorId = $request->author_id;
+            $authorId = $request->authorId;
             $name = $request->name;
             $bio = $request->bio;
             $updateAuthorResponse = $this->authorService->update($authorId,$name,$bio);
-            return response()->json([
-                'success' => true,
-                'message' => $updateAuthorResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $updateAuthorResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -65,10 +53,7 @@ class AuthorController extends Controller
      */
     public function find ($id) {
         $author = $this->authorService->find($id);
-        return response()->json([
-            'success' => false,
-            'book' => $author,
-        ]);
+        return response()->json(['success' => false, 'book' => $author]);
     }
 
     /**
@@ -76,10 +61,7 @@ class AuthorController extends Controller
      */
     public function authors () {
         $authors = $this->authorService->authors();
-        return response()->json([
-            'success' => false,
-            'book' => $authors,
-        ]);
+        return response()->json(['success' => false, 'book' => $authors]);
     }
 
     /**
@@ -89,15 +71,9 @@ class AuthorController extends Controller
     public function delete ($id) {
         try {
             $deleteAuthorResponse = $this->authorService->delete($id);
-            return response()->json([
-                'success' => true,
-                'message' => $deleteAuthorResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $deleteAuthorResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => true,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => true, 'message' => $e->getMessage()]);
         }
     }
 }

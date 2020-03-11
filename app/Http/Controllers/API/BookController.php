@@ -26,20 +26,14 @@ class BookController extends Controller
         try {
             //Validation required
             $name = $request->name;
-            $categoryId = $request->category_id;
-            $authorId = $request->author_id;
-            $publicationId = $request->publication_id;
+            $categoryId = $request->categoryId;
+            $authorId = $request->authorId;
+            $publicationId = $request->publicationId;
             $data = $request->data;
             $createBookResponse = $this->bookService->create($name,$categoryId,$authorId,$publicationId,$data);
-            return response()->json([
-                'success' => true,
-                'message' => $createBookResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $createBookResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -50,23 +44,16 @@ class BookController extends Controller
     public function update (Request $request) {
         try {
             //Validation required
-            $bookId = $request->book_id;
+            $bookId = $request->bookId;
             $name = $request->name;
-            $categoryId = $request->category_id;
-            $authorId = $request->author_id;
-            $publicationId = $request->publication_id;
+            $categoryId = $request->categoryId;
+            $authorId = $request->authorId;
+            $publicationId = $request->publicationId;
             $data = $request->data;
-
             $updateBookResponse = $this->bookService->update($bookId,$name,$categoryId,$authorId,$publicationId,$data);
-            return response()->json([
-                'success' => true,
-                'message' => $updateBookResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $updateBookResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -76,10 +63,7 @@ class BookController extends Controller
      */
     public function find ($id) {
         $book = $this->bookService->find($id);
-        return response()->json([
-           'success' => false,
-           'book' => $book,
-        ]);
+        return response()->json(['success' => false, 'book' => $book]);
     }
 
     /**
@@ -87,10 +71,7 @@ class BookController extends Controller
      */
     public function books () {
         $books = $this->bookService->books();
-        return response()->json([
-            'success' => false,
-            'book' => $books,
-        ]);
+        return response()->json(['success' => false, 'book' => $books]);
     }
     /**
      * @param $id
@@ -99,15 +80,9 @@ class BookController extends Controller
     public function delete ($id) {
         try {
             $deleteBookResponse = $this->bookService->delete($id);
-            return response()->json([
-                'success' => true,
-                'message' => $deleteBookResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $deleteBookResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => true,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => true, 'message' => $e->getMessage()]);
         }
     }
 

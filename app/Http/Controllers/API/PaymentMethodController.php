@@ -27,15 +27,9 @@ class PaymentMethodController extends Controller
             //Validation required
             $name = $request->name;
             $createPaymentMethodResponse = $this->paymentMethodService->create($name);
-            return response()->json([
-                'success' => true,
-                'message' => $createPaymentMethodResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $createPaymentMethodResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -46,18 +40,12 @@ class PaymentMethodController extends Controller
     public function update (Request $request) {
         try {
             //Validation required
-            $paymentMethodId = $request->payment_method_id;
+            $paymentMethodId = $request->paymentMethodId;
             $name = $request->name;
             $updatePaymentMethodResponse = $this->paymentMethodService->update($paymentMethodId,$name);
-            return response()->json([
-                'success' => true,
-                'message' => $updatePaymentMethodResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $updatePaymentMethodResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -67,10 +55,7 @@ class PaymentMethodController extends Controller
      */
     public function find ($id) {
         $paymentMethod = $this->paymentMethodService->find($id);
-        return response()->json([
-            'success' => false,
-            'book' => $paymentMethod,
-        ]);
+        return response()->json(['success' => false, 'book' => $paymentMethod]);
     }
 
     /**
@@ -78,10 +63,7 @@ class PaymentMethodController extends Controller
      */
     public function paymentMethods () {
         $paymentMethods = $this->paymentMethodService->paymentMethods();
-        return response()->json([
-            'success' => false,
-            'book' => $paymentMethods,
-        ]);
+        return response()->json(['success' => false, 'book' => $paymentMethods]);
     }
 
     /**
@@ -91,15 +73,9 @@ class PaymentMethodController extends Controller
     public function delete ($id) {
         try {
             $deletePaymentMethodResponse = $this->paymentMethodService->delete($id);
-            return response()->json([
-                'success' => true,
-                'message' => $deletePaymentMethodResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $deletePaymentMethodResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => true,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => true, 'message' => $e->getMessage()]);
         }
     }
 }

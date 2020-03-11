@@ -24,7 +24,7 @@ class CartController extends Controller
      */
     public function viewCart () {
         $user = Auth::user();
-        $viewCartResponse = $this->cartService->viewCart($user->id);
+        $viewCartResponse = $this->cartService->view($user->id);
         return response()->json([
             'success' => false,
             'message' => $viewCartResponse['message'],
@@ -40,16 +40,10 @@ class CartController extends Controller
         try {
             //TODO Need to validate
             $bookId = $request->id;
-            $removeFromCartResponse  =  $this->cartService->removeFromCart($bookId);
-            return response()->json([
-                'success' => true,
-                'message' => $removeFromCartResponse['message']
-            ]);
+            $removeFromCartResponse  =  $this->cartService->remove($bookId);
+            return response()->json(['success' => true, 'message' => $removeFromCartResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -62,17 +56,11 @@ class CartController extends Controller
             //TODO Need to validate
              $bookId = $request->id;
              $user = Auth::user();
-             $addToCartResponse = $this->cartService->addToCart($user->id,$bookId);
-             return response()->json([
-                'success' => true,
-                'message' => $addToCartResponse['message']
-            ]);
+             $addToCartResponse = $this->cartService->add($user->id,$bookId);
+             return response()->json(['success' => true, 'message' => $addToCartResponse['message']]);
 
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 }

@@ -27,15 +27,9 @@ class ShippingMethodController extends Controller
             // TODO: Validation required
             $name = $request->name;
             $createShippingMethodResponse = $this->shippingMethodService->create($name);
-            return response()->json([
-                'success' => true,
-                'message' => $createShippingMethodResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $createShippingMethodResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -46,13 +40,10 @@ class ShippingMethodController extends Controller
     public function update (Request $request) {
         try {
             // TODO: Validation required
-            $shipping_method_id = $request->shipping_method_id;
+            $shippingMethodId = $request->shippingMethodId;
             $name = $request->name;
-            $updateShippingMethodResponse = $this->shippingMethodService->update($shipping_method_id,$name);
-            return response()->json([
-                'success' => true,
-                'message' => $updateShippingMethodResponse['message']
-            ]);
+            $updateShippingMethodResponse = $this->shippingMethodService->update($shippingMethodId,$name);
+            return response()->json(['success' => true, 'message' => $updateShippingMethodResponse['message']]);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -67,10 +58,7 @@ class ShippingMethodController extends Controller
      */
     public function find ($id) {
         $shippingMethod = $this->shippingMethodService->find($id);
-        return response()->json([
-            'success' => false,
-            'book' => $shippingMethod,
-        ]);
+        return response()->json(['success' => false, 'book' => $shippingMethod]);
     }
 
     /**
@@ -78,10 +66,7 @@ class ShippingMethodController extends Controller
      */
     public function shippingMethods () {
         $shippingMethods = $this->shippingMethodService->shippingMethods();
-        return response()->json([
-            'success' => false,
-            'book' => $shippingMethods,
-        ]);
+        return response()->json(['success' => false, 'book' => $shippingMethods]);
     }
 
     /**
@@ -91,15 +76,9 @@ class ShippingMethodController extends Controller
     public function delete ($id) {
         try {
             $deleteShippingMethodResponse = $this->shippingMethodService->delete($id);
-            return response()->json([
-                'success' => true,
-                'message' => $deleteShippingMethodResponse['message']
-            ]);
+            return response()->json(['success' => true, 'message' => $deleteShippingMethodResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => true,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => true, 'message' => $e->getMessage()]);
         }
     }
 }

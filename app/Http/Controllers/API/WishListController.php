@@ -24,7 +24,7 @@ class WishListController extends Controller
      */
     public function viewWishList () {
         $user = Auth::user();
-        $viewWishListResponse = $this->wishListService->viewWishList($user->id);
+        $viewWishListResponse = $this->wishListService->view($user->id);
         return response()->json([
             'success' => false,
             'message' => $viewWishListResponse['message'],
@@ -41,17 +41,11 @@ class WishListController extends Controller
             //TODO Need to validate
             $bookId = $request->id;
             $user = Auth::user();
-            $addToWishListResponse = $this->wishListService->addToWishList($user->id,$bookId);
-            return response()->json([
-                'success' => true,
-                'message' => $addToWishListResponse['message']
-            ]);
+            $addToWishListResponse = $this->wishListService->add($user->id,$bookId);
+            return response()->json(['success' => true, 'message' => $addToWishListResponse['message']]);
 
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
@@ -63,16 +57,10 @@ class WishListController extends Controller
         try {
             //TODO Need to validate
             $bookId = $request->id;
-            $removeFromWishListResponse  =  $this->wishListService->removeFromWishList($bookId);
-            return response()->json([
-                'success' => true,
-                'message' => $removeFromWishListResponse['message']
-            ]);
+            $removeFromWishListResponse  =  $this->wishListService->remove($bookId);
+            return response()->json(['success' => true, 'message' => $removeFromWishListResponse['message']]);
         } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
