@@ -39,9 +39,9 @@ class WishListController extends Controller
     public function addToWishList (Request $request) {
         try {
             //TODO Need to validate
-            $book_id = $request->id;
+            $bookId = $request->id;
             $user = Auth::user();
-            $addToWishListResponse = $this->wishListService->addToWishList($user->id,$book_id);
+            $addToWishListResponse = $this->wishListService->addToWishList($user->id,$bookId);
             return response()->json([
                 'success' => true,
                 'message' => $addToWishListResponse['message']
@@ -62,8 +62,8 @@ class WishListController extends Controller
     public function removeFromWishList (Request $request) {
         try {
             //TODO Need to validate
-            $book_id = $request->id;
-            $removeFromWishListResponse  =  $this->wishListService->removeFromWishList($book_id);
+            $bookId = $request->id;
+            $removeFromWishListResponse  =  $this->wishListService->removeFromWishList($bookId);
             return response()->json([
                 'success' => true,
                 'message' => $removeFromWishListResponse['message']

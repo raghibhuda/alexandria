@@ -43,10 +43,10 @@ class AuthorController extends Controller
     public function update (Request $request) {
         try {
             //Validation required
-            $author_id = $request->author_id;
+            $authorId = $request->author_id;
             $name = $request->name;
             $bio = $request->bio;
-            $updateAuthorResponse = $this->authorService->update($author_id,$name,$bio);
+            $updateAuthorResponse = $this->authorService->update($authorId,$name,$bio);
             return response()->json([
                 'success' => true,
                 'message' => $updateAuthorResponse['message']

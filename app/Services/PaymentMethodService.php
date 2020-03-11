@@ -19,15 +19,9 @@ class PaymentMethodService
             PaymentMethod::create([
                 'name' => $name
             ]);
-            return [
-                'success' => true,
-                'message' => 'Payment Method has been saved'
-            ];
+            return ['success' => true, 'message' => 'Payment Method has been saved'];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => 'Failed to create Payment Method'
-            ];
+            return ['success' => false, 'message' => 'Failed to create Payment Method'];
         }
     }
 
@@ -47,49 +41,37 @@ class PaymentMethodService
     }
 
     /**
-     * @param int $payment_method_id
+     * @param int $paymentMethodId
      * @param string $name
      * @return array
      */
-    public function update (int $payment_method_id , string $name) :array {
+    public function update (int $paymentMethodId , string $name) :array {
         try {
-            $paymentMethod  =  PaymentMethod::where('id',$payment_method_id)->update([
+            $paymentMethod  =  PaymentMethod::where('id',$paymentMethodId)->update([
                 'name' => $name
             ]);
             if (!$paymentMethod) {
                 return ['success' => false, 'message' => 'Payment Method not found'];
             }
-            return [
-                'success' => false,
-                'message' => 'Payment Method has been updated'
-            ];
+            return ['success' => false, 'message' => 'Payment Method has been updated'];
         } catch (Exception $e) {
-            return [
-                'success' => true,
-                'message' => __('Something went wrong')
-            ];
+            return ['success' => true, 'message' => __('Something went wrong')];
         }
     }
 
     /**
-     * @param int $payment_method_id
+     * @param int $paymentMethodId
      * @return array
      */
-    public function delete (int $payment_method_id) :array {
+    public function delete (int $paymentMethodId) :array {
         try {
-            $paymentMethod  =  PaymentMethod::where('id',$payment_method_id)->delete();
+            $paymentMethod  =  PaymentMethod::where('id',$paymentMethodId)->delete();
             if (!$paymentMethod) {
                 return ['success' => false, 'message' => 'Payment Method not found'];
             }
-            return [
-                'success' => false,
-                'message' => 'Payment Method has been deleted'
-            ];
+            return ['success' => false, 'message' => 'Payment Method has been deleted'];
         } catch (Exception $e) {
-            return [
-                'success' => true,
-                'message' => __('Something went wrong')
-            ];
+            return ['success' => true, 'message' => __('Something went wrong')];
         }
     }
 

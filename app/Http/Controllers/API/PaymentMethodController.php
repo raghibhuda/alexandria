@@ -46,9 +46,9 @@ class PaymentMethodController extends Controller
     public function update (Request $request) {
         try {
             //Validation required
-            $payment_method_id = $request->payment_method_id;
+            $paymentMethodId = $request->payment_method_id;
             $name = $request->name;
-            $updatePaymentMethodResponse = $this->paymentMethodService->update($payment_method_id,$name);
+            $updatePaymentMethodResponse = $this->paymentMethodService->update($paymentMethodId,$name);
             return response()->json([
                 'success' => true,
                 'message' => $updatePaymentMethodResponse['message']

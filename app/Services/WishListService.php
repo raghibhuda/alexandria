@@ -10,78 +10,53 @@ use Exception;
 class WishListService
 {
     /**
-     * @param int $user_id
-     * @param $book_id
+     * @param int $userId
+     * @param $bookId
      * @return array
      */
-    public function addToWishList(int $user_id, $book_id): array
+    public function addToWishList(int $userId, $bookId): array
     {
         try {
-            $wishList = WishList::where(['user_id' => $user_id, 'book_id' => $book_id])->first();
+            $wishList = WishList::where(['user_id' => $userId, 'book_id' => $bookId])->first();
             if ($wishList) {
-                return [
-                    'success' => false,
-                    'message' => __('Already in wish list!')
-                ];
+                return ['success' => false, 'message' => __('Already in wish list!')];
             }
             WishList::create([
-                'user_id' => $user_id,
-                'book_id' => $book_id,
+                'user_id' => $userId,
+                'book_id' => $bookId,
             ]);
-            return [
-                'success' => true,
-                'message' => __('Wish list has been updated')
-            ];
+            return ['success' => true, 'message' => __('Wish list has been updated')];
         } catch (Exception $e) {
-            return [
-                'success' => true,
-                'message' => __('Something went wrong')
-            ];
+            return ['success' => true, 'message' => __('Something went wrong')];
         }
     }
 
     /**
-     * @param int $book_id
+     * @param int $bookId
      * @return array
      */
-    public function removeFromWishList(int $book_id): array
+    public function removeFromWishList(int $bookId): array
     {
         try {
-            $wishList = WishList::find($book_id)->delete();
+            $wishList = WishList::find($bookId)->delete();
             if (!$wishList) {
-                return [
-                    'success' => false,
-                    'message' => __('Book not found')
-                ];
+                return ['success' => false, 'message' => __('Book not found')];
             }
-            return [
-                'success' => true,
-                'message' => __('Book removed from wish list')
-            ];
+            return ['success' => true, 'message' => __('Book removed from wish list')];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __('Failed to remove book from wish list')
-            ];
+            return ['success' => false, 'message' => __('Failed to remove book from wish list')];
         }
     }
 
     /**
-     * @param int $user_id
+     * @param int $userId
      * @return array
      */
-    public function viewWishList (int $user_id) :array {
-        $wishList = WishList::where('user_id',$user_id)->get();
+    public function viewWishList (int $userId) :array {
+        $wishList = WishList::where('user_id',$userId)->get();
         if(!$wishList) {
-            return [
-                'success' => false,
-                'message' => __('Wish List is empty')
-            ];
+            return ['success' => false, 'message' => __('Wish List is empty')];
         }
-        return [
-            'success' => true,
-            'wishList' => $wishList,
-            'message' => __('Books have been fetched')
-        ];
+        return ['success' => true, 'wishList' => $wishList, 'message' => __('Books have been fetched')];
     }
 }

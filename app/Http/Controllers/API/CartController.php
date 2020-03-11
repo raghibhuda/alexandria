@@ -39,8 +39,8 @@ class CartController extends Controller
     public function removeFromCart (Request $request) {
         try {
             //TODO Need to validate
-            $book_id = $request->id;
-            $removeFromCartResponse  =  $this->cartService->removeFromCart($book_id);
+            $bookId = $request->id;
+            $removeFromCartResponse  =  $this->cartService->removeFromCart($bookId);
             return response()->json([
                 'success' => true,
                 'message' => $removeFromCartResponse['message']
@@ -60,9 +60,9 @@ class CartController extends Controller
     public function addToCart (Request $request) {
         try {
             //TODO Need to validate
-             $book_id = $request->id;
+             $bookId = $request->id;
              $user = Auth::user();
-             $addToCartResponse = $this->cartService->addToCart($user->id,$book_id);
+             $addToCartResponse = $this->cartService->addToCart($user->id,$bookId);
              return response()->json([
                 'success' => true,
                 'message' => $addToCartResponse['message']

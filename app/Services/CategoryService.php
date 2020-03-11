@@ -19,15 +19,9 @@ class CategoryService
             Category::create([
                 'name' => $name,
             ]);
-            return [
-                'success' => true,
-                'message' => 'Category has been created'
-            ];
+            return ['success' => true, 'message' => 'Category has been created'];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => 'Failed to create Category'
-            ];
+            return ['success' => false, 'message' => 'Failed to create Category'];
         }
 
     }
@@ -48,50 +42,38 @@ class CategoryService
     }
 
     /**
-     * @param int $category_id
+     * @param int $categoryId
      * @param string $name
      * @return array
      */
-    public function update (int $category_id, string $name) :array {
+    public function update (int $categoryId, string $name) :array {
         try {
-            $category = Category::where('id',$category_id)->update([
+            $category = Category::where('id',$categoryId)->update([
                'name' => $name
             ]);
             if (!$category) {
                 return ['success' => false, 'message' => 'Category no found'];
             }
-            return [
-                'success' => true,
-                'message' => 'Category has been updated'
-            ];
+            return ['success' => true, 'message' => 'Category has been updated'];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __('Something went wrong')
-            ];
+            return ['success' => false, 'message' => __('Something went wrong')];
         }
 
     }
 
     /**
-     * @param int $category_id
+     * @param int $categoryId
      * @return array
      */
-    public function delete (int $category_id) :array {
+    public function delete (int $categoryId) :array {
         try {
-            $category = Category::where('id',$category_id)->delete();
+            $category = Category::where('id',$categoryId)->delete();
             if (!$category) {
                 return ['success' => false, 'message' => 'Category no found'];
             }
-            return [
-                'success' => true,
-                'message' => 'Category has been updated'
-            ];
+            return ['success' => true, 'message' => 'Category has been updated'];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __('Something went wrong')
-            ];
+            return ['success' => false, 'message' => __('Something went wrong')];
         }
     }
 }

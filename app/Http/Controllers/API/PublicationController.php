@@ -46,9 +46,9 @@ class PublicationController extends Controller
     public function update (Request $request) {
         try {
             //Validation required
-            $publication_id = $request->publication_id;
+            $publicationId = $request->publication_id;
             $name = $request->name;
-            $updatePublicationResponse = $this->publicationService->update($publication_id,$name);
+            $updatePublicationResponse = $this->publicationService->update($publicationId,$name);
             return response()->json([
                 'success' => true,
                 'message' => $updatePublicationResponse['message']

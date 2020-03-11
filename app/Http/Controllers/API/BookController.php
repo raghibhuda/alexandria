@@ -26,11 +26,11 @@ class BookController extends Controller
         try {
             //Validation required
             $name = $request->name;
-            $category_id = $request->category_id;
-            $author_id = $request->author_id;
-            $publication_id = $request->publication_id;
+            $categoryId = $request->category_id;
+            $authorId = $request->author_id;
+            $publicationId = $request->publication_id;
             $data = $request->data;
-            $createBookResponse = $this->bookService->create($name,$category_id,$author_id,$publication_id,$data);
+            $createBookResponse = $this->bookService->create($name,$categoryId,$authorId,$publicationId,$data);
             return response()->json([
                 'success' => true,
                 'message' => $createBookResponse['message']
@@ -50,14 +50,14 @@ class BookController extends Controller
     public function update (Request $request) {
         try {
             //Validation required
-            $book_id = $request->book_id;
+            $bookId = $request->book_id;
             $name = $request->name;
-            $category_id = $request->category_id;
-            $author_id = $request->author_id;
-            $publication_id = $request->publication_id;
+            $categoryId = $request->category_id;
+            $authorId = $request->author_id;
+            $publicationId = $request->publication_id;
             $data = $request->data;
 
-            $updateBookResponse = $this->bookService->update($book_id,$name,$category_id,$author_id,$publication_id,$data);
+            $updateBookResponse = $this->bookService->update($bookId,$name,$categoryId,$authorId,$publicationId,$data);
             return response()->json([
                 'success' => true,
                 'message' => $updateBookResponse['message']

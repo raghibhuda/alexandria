@@ -21,15 +21,9 @@ class AuthorService
                 'name' => $name,
                 'bio' => $bio,
             ]);
-            return [
-                'success' => true,
-                'message' => __('Author has been created')
-            ];
+            return ['success' => true, 'message' => __('Author has been created')];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __('Failed to create Author')
-            ];
+            return ['success' => false, 'message' => __('Failed to create Author')];
         }
     }
 
@@ -49,44 +43,36 @@ class AuthorService
     }
 
     /**
-     * @param int $author_id
+     * @param int $authorId
      * @param string $name
      * @param string $bio
      * @return array
      */
-    public function update (int $author_id, string $name, string $bio) :array {
+    public function update (int $authorId, string $name, string $bio) :array {
         try {
-            $author = Author::where('id', $author_id)->update([
+            $author = Author::where('id', $authorId)->update([
                 'name' => $name,
                 'bio' => $bio,
             ]);
             if (!$author) {
                 return ['success' => false, 'message' => __('Author not found')];
             }
-
-            return [
-                'success' => true,
-                'message' => __('Author has been updated')
-            ];
+            return ['success' => true, 'message' => __('Author has been updated')];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __(__('Something went wrong'))
-            ];
+            return ['success' => false, 'message' => __('Something went wrong')];
         }
     }
 
     /**
-     * @param int $author_id
+     * @param int $authorId
      * @return array
      */
-    public function delete (int $author_id) :array {
+    public function delete (int $authorId) :array {
         try {
-            $author = Author::where('id', $author_id)->delete();
+            $author = Author::where('id', $authorId)->delete();
             if (!$author) {
                 return ['success' => false, 'message' => __('Author not found')];
             }
-
             return ['success' => true, 'message' => __('Author has been deleted')];
         } catch (Exception $e) {
             return ['success' => false, 'message' => __('Something went wrong')];

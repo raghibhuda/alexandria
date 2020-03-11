@@ -10,79 +10,53 @@ use Exception;
 class CartService
 {
     /**
-     * @param int $user_id
-     * @param int $book_id
+     * @param int $userId
+     * @param int $bookId
      * @return array
      */
-    public function addToCart (int $user_id, int $book_id) :array {
+    public function addToCart (int $userId, int $bookId) :array {
         try {
-            $cart = Cart::where(['user_id'=>$user_id,'book_id'=>$book_id]);
+            $cart = Cart::where(['user_id'=>$userId,'book_id'=>$bookId]);
             if($cart) {
-                return [
-                    'success' => false,
-                    'message' => __('Book already exits in cart')
-                ];
+                return ['success' => false, 'message' => __('Book already exits in cart')];
             }
             Cart::create([
-                'user_id' => $user_id,
-                'book_id' => $book_id
+                'user_id' => $userId,
+                'book_id' => $bookId
             ]);
-
-            return [
-                'success' => true,
-                'message' => __('Book has been added to cart')
-            ];
+            return ['success' => true, 'message' => __('Book has been added to cart')];
         } catch (Exception $e) {
-            return [
-                'success' => true,
-                'message' => __('Failed to add book to cart')
-            ];
+            return ['success' => true, 'message' => __('Failed to add book to cart')];
         }
     }
 
     /**
-     * @param int $book_id
+     * @param int $bookId
      * @return array
      */
-    public function removeFromCart (int $book_id) :array {
+    public function removeFromCart (int $bookId) :array {
         try {
-            $book = Cart::where('book_id',$book_id)->delete();
+            $book = Cart::where('book_id',$bookId)->delete();
             if(!$book) {
-                return [
-                    'success' => false,
-                    'message' => __('Book not found in cart')
-                ];
+                return ['success' => false, 'message' => __('Book not found in cart')];
             }
-            return [
-                'success' => true,
-                'message' => __('Book has been remove from cart')
-            ];
+            return ['success' => true, 'message' => __('Book has been remove from cart')];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __('Failed to remove book from cart')
-            ];
+            return ['success' => false, 'message' => __('Failed to remove book from cart')];
         }
     }
 
     /**
-     * @param int $user_id
+     * @param int $userId
      * @return array
      */
-    public function viewCart (int $user_id) :array {
+    public function viewCart (int $userId) :array {
         //Cart of the user
-        $cart = Cart::where('user_id',$user_id)->get();
+        $cart = Cart::where('user_id',$userId)->get();
         if(!$cart) {
-            return [
-                'success' => false,
-                'message' => __('Cart is empty')
-            ];
+            return ['success' => false, 'message' => __('Cart is empty')];
         }
-        return [
-            'success' => false,
-            'cart' => $cart,
-            'message' => __('Books has been fetched')
-        ];
+        return ['success' => false, 'cart' => $cart, 'message' => __('Books has been fetched')];
 
     }
 }
