@@ -14,7 +14,7 @@ class WishListService
      * @param $bookId
      * @return array
      */
-    public function addToWishList(int $userId, $bookId): array
+    public function add(int $userId, $bookId): array
     {
         try {
             $wishList = WishList::where(['user_id' => $userId, 'book_id' => $bookId])->first();
@@ -35,7 +35,7 @@ class WishListService
      * @param int $bookId
      * @return array
      */
-    public function removeFromWishList(int $bookId): array
+    public function remove(int $bookId): array
     {
         try {
             $wishList = WishList::find($bookId)->delete();
@@ -52,7 +52,7 @@ class WishListService
      * @param int $userId
      * @return array
      */
-    public function viewWishList (int $userId) :array {
+    public function view (int $userId) :array {
         $wishList = WishList::where('user_id',$userId)->get();
         if(!$wishList) {
             return ['success' => false, 'message' => __('Wish List is empty')];

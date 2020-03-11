@@ -14,7 +14,7 @@ class CartService
      * @param int $bookId
      * @return array
      */
-    public function addToCart (int $userId, int $bookId) :array {
+    public function add (int $userId, int $bookId) :array {
         try {
             $cart = Cart::where(['user_id'=>$userId,'book_id'=>$bookId]);
             if($cart) {
@@ -34,7 +34,7 @@ class CartService
      * @param int $bookId
      * @return array
      */
-    public function removeFromCart (int $bookId) :array {
+    public function remove (int $bookId) :array {
         try {
             $book = Cart::where('book_id',$bookId)->delete();
             if(!$book) {
@@ -50,7 +50,7 @@ class CartService
      * @param int $userId
      * @return array
      */
-    public function viewCart (int $userId) :array {
+    public function view (int $userId) :array {
         //Cart of the user
         $cart = Cart::where('user_id',$userId)->get();
         if(!$cart) {
