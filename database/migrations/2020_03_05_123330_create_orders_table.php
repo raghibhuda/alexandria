@@ -17,12 +17,13 @@ class CreateOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('book_id');
-            $table->unsignedBigInteger('payment_id');
+            $table->unsignedBigInteger('payment_method_id');
             $table->unsignedBigInteger('shipping_id');
             $table->float('total_amount');
             $table->float('vat')->nullable();
             $table->float('tax')->nullable();
             $table->unsignedInteger('quantity');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
