@@ -64,10 +64,10 @@ class OrderController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function show (int $id) {
+    public function order (int $id) {
         $order = $this->orderService->find($id);
         return response()->json([
-            'success' => true,
+            'success' => $order['success'],
             'message' => $order['message'],
             'order' => $order['order']
         ]);

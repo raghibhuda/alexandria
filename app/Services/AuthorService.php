@@ -10,12 +10,43 @@ use Illuminate\Database\Eloquent\Collection;
 
 class AuthorService
 {
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function findOne(int $id): array {
+        $author = Author::find($id);
+        if (!$author) {
+            return ['success' => false, 'message' => 'Author not found'];
+        }
+        return [
+            'success' => true,
+            'message' => 'Author has been fetched',
+            'author' => $author,
+        ];
+    }
+
+    /**
+     * @return Author[]|Collection
+     */
+    public function findAll(): array {
+        $authors = Author::all();
+        return [
+            'success' => true,
+            'message' => 'Authors have been fetched',
+            'authors' => $authors,
+        ];
+
+    }
+
+
     /**
      * @param string $name
      * @param string $bio
      * @return array
      */
-    public function create (string $name, string $bio) :array {
+    public function create(string $name, string $bio): array {
         try {
             Author::create([
                 'name' => $name,
@@ -28,27 +59,12 @@ class AuthorService
     }
 
     /**
-     * @return Author[]|Collection
-     */
-    public function authors () {
-        return Author::all();
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function find (int $id) {
-        return Author::find($id);
-    }
-
-    /**
      * @param int $authorId
      * @param string $name
      * @param string $bio
      * @return array
      */
-    public function update (int $authorId, string $name, string $bio) :array {
+    public function update(int $authorId, string $name, string $bio): array {
         try {
             $author = Author::where('id', $authorId)->update([
                 'name' => $name,
@@ -67,7 +83,7 @@ class AuthorService
      * @param int $authorId
      * @return array
      */
-    public function delete (int $authorId) :array {
+    public function delete(int $authorId): array {
         try {
             $author = Author::where('id', $authorId)->delete();
             if (!$author) {

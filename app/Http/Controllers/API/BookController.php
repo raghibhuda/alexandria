@@ -14,15 +14,40 @@ class BookController extends Controller
     /**
      * BookController constructor.
      */
-    public function __construct () {
+    public function __construct() {
         $this->bookService = new BookService();
+    }
+
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function findOne($id) {
+        $response = $this->bookService->findOne($id);
+        return response()->json([
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'book' => $response['book']
+        ]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function findAll() {
+        $response = $this->bookService->findAll();
+        return response()->json([
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'books' => $response['books'],
+        ]);
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
      */
-    public function create (Request $request) {
+    public function create(Request $request) {
         try {
             //Validation required
             $name = $request->name;
@@ -30,8 +55,8 @@ class BookController extends Controller
             $authorId = $request->authorId;
             $publicationId = $request->publicationId;
             $data = $request->data;
-            $createBookResponse = $this->bookService->create($name,$categoryId,$authorId,$publicationId,$data);
-            return response()->json(['success' => true, 'message' => $createBookResponse['message']]);
+            $response = $this->bookService->create($name, $categoryId, $authorId, $publicationId, $data);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -41,7 +66,7 @@ class BookController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function update (Request $request) {
+    public function update(Request $request) {
         try {
             //Validation required
             $bookId = $request->bookId;
@@ -50,8 +75,8 @@ class BookController extends Controller
             $authorId = $request->authorId;
             $publicationId = $request->publicationId;
             $data = $request->data;
-            $updateBookResponse = $this->bookService->update($bookId,$name,$categoryId,$authorId,$publicationId,$data);
-            return response()->json(['success' => true, 'message' => $updateBookResponse['message']]);
+            $response = $this->bookService->update($bookId, $name, $categoryId, $authorId, $publicationId, $data);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -61,26 +86,10 @@ class BookController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function find ($id) {
-        $book = $this->bookService->find($id);
-        return response()->json(['success' => false, 'book' => $book]);
-    }
-
-    /**
-     * @return JsonResponse
-     */
-    public function books () {
-        $books = $this->bookService->books();
-        return response()->json(['success' => false, 'book' => $books]);
-    }
-    /**
-     * @param $id
-     * @return JsonResponse
-     */
-    public function delete ($id) {
+    public function delete($id) {
         try {
-            $deleteBookResponse = $this->bookService->delete($id);
-            return response()->json(['success' => true, 'message' => $deleteBookResponse['message']]);
+            $response = $this->bookService->delete($id);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => true, 'message' => $e->getMessage()]);
         }

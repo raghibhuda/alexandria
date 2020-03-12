@@ -29,7 +29,7 @@ class CategoryService
     /**
      * @return Category[]|Collection
      */
-    public function categories () {
+    public function findAll () {
         return Category::all();
     }
 
@@ -37,7 +37,7 @@ class CategoryService
      * @param $id
      * @return mixed
      */
-    public function find (int $id) {
+    public function findOne (int $id) {
         return Category::find($id);
     }
 
