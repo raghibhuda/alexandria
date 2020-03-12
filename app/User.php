@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -36,7 +38,38 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return HasOne
+     */
     public function userInfo () {
         return $this->hasOne(User::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function orders () {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function shippings () {
+        return $this->hasMany(Shipping::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function cart () {
+        return $this->hasOne(Cart::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function wishList () {
+        return $this->hasOne(WishList::class);
     }
 }

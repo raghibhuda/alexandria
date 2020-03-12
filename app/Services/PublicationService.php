@@ -19,15 +19,9 @@ class PublicationService
             Publication::create([
                 'name' => $name,
             ]);
-            return [
-                'success' => true,
-                'message' => 'Publication has been created'
-            ];
+            return ['success' => true, 'message' => 'Publication has been created'];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => 'Failed to create Publication'
-            ];
+            return ['success' => false, 'message' => 'Failed to create Publication'];
         }
 
     }
@@ -48,50 +42,38 @@ class PublicationService
     }
 
     /**
-     * @param int $publication_id
+     * @param int $publicationId
      * @param string $name
      * @return array
      */
-    public function update (int $publication_id, string $name) :array {
+    public function update (int $publicationId, string $name) :array {
         try {
-            $publication = Publication::where('id',$publication_id)->update([
+            $publication = Publication::where('id',$publicationId)->update([
                 'name' => $name
             ]);
             if (!$publication) {
                 return ['success' => false, 'message' => 'Publication not found'];
             }
-            return [
-                'success' => true,
-                'message' => 'Publication has been updated'
-            ];
+            return ['success' => true, 'message' => 'Publication has been updated'];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => 'Something went wrong'
-            ];
+            return ['success' => false, 'message' => __('Something went wrong')];
         }
 
     }
 
     /**
-     * @param int $publication_id
+     * @param int $publicationId
      * @return array
      */
-    public function delete (int $publication_id) :array {
+    public function delete (int $publicationId) :array {
         try {
-            $publication = Publication::where('id',$publication_id)->delete();
+            $publication = Publication::where('id',$publicationId)->delete();
             if (!$publication) {
                 return ['success' => false, 'message' => 'Publication not found'];
             }
-            return [
-                'success' => true,
-                'message' => 'Publication has been deleted'
-            ];
+            return ['success' => true, 'message' => 'Publication has been deleted'];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => 'Something went wrong'
-            ];
+            return ['success' => false, 'message' => __('Something went wrong')];
         }
     }
 }

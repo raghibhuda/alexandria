@@ -19,15 +19,9 @@ class ShippingMethodService
             ShippingMethod::create([
                 'name' => $name,
             ]);
-            return [
-                'success' => true,
-                'message' => __('Shipping Method has been created')
-            ];
+            return ['success' => true, 'message' => __('Shipping Method has been created')];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __('Failed to create Shipping Method')
-            ];
+            return ['success' => false, 'message' => __('Failed to create Shipping Method')];
         }
     }
 
@@ -60,15 +54,9 @@ class ShippingMethodService
                 return ['success' => false, 'message' => __('Shipping Method not found')];
             }
 
-            return [
-                'success' => true,
-                'message' => __('Shipping Method has been updated')
-            ];
+            return ['success' => true, 'message' => __('Shipping Method has been updated')];
         } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => __('Something went wrong')
-            ];
+            return ['success' => false, 'message' => __('Something went wrong')];
         }
     }
 
