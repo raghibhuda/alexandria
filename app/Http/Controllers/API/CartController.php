@@ -15,20 +15,20 @@ class CartController extends Controller
     /**
      * CartController constructor.
      */
-    public function __construct () {
+    public function __construct() {
         $this->cartService = new CartService();
     }
 
     /**
      * @return JsonResponse
      */
-    public function viewCart () {
+    public function view() {
         $user = Auth::user();
-        $viewCartResponse = $this->cartService->view($user->id);
+        $response = $this->cartService->findByUser($user->id);
         return response()->json([
-            'success' => false,
-            'message' => $viewCartResponse['message'],
-            'response' => $viewCartResponse
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'cart' => $response['cart']
         ]);
     }
 
@@ -36,12 +36,12 @@ class CartController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function removeFromCart (Request $request) {
+    public function remove(Request $request) {
         try {
             //TODO Need to validate
             $bookId = $request->id;
-            $removeFromCartResponse  =  $this->cartService->remove($bookId);
-            return response()->json(['success' => true, 'message' => $removeFromCartResponse['message']]);
+            $response = $this->cartService->remove($bookId);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -51,14 +51,13 @@ class CartController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function addToCart (Request $request) {
+    public function add(Request $request) {
         try {
             //TODO Need to validate
-             $bookId = $request->id;
-             $user = Auth::user();
-             $addToCartResponse = $this->cartService->add($user->id,$bookId);
-             return response()->json(['success' => true, 'message' => $addToCartResponse['message']]);
-
+            $bookId = $request->id;
+            $user = Auth::user();
+            $response = $this->cartService->add($user->id, $bookId);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }

@@ -17,19 +17,29 @@ class OrderService
      * @param int $id
      * @return array
      */
-    public function findOne(int $id) {
+    public function findOne(int $id): array {
         $order = Order::find($id);
         if (!$order) {
             return ['success' => false, 'message' => 'Order not found'];
         }
-        return ['success' => true, 'order' => $order, 'message' => 'Order has been found'];
+        return [
+            'success' => true,
+            'message' => __('Order has been found'),
+            'order' => $order,
+        ];
     }
 
     /**
      * @return Order[]|Collection
      */
-    public function findAll() {
-        return Order::all();
+    public function findAll(): array {
+        $orders = Order::all();
+        return [
+            'success' => true,
+            'message' => __('Order has been found'),
+            'orders' => $orders,
+        ];
+
     }
 
     /**
@@ -39,9 +49,13 @@ class OrderService
     public function findByUser(int $userId) {
         $orders = Order::where('user_id', $userId);
         if (!$orders) {
-            return ['success' => false, 'message' => 'User not found'];
+            return ['success' => false, 'message' => __('User not found')];
         }
-        return ['success' => true, 'orders' => $orders, 'message' => 'Orders have been fetched'];
+        return [
+            'success' => true,
+            'message' => __('Orders have been fetched'),
+            'orders' => $orders,
+        ];
     }
 
     /**

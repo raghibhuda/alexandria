@@ -19,6 +19,31 @@ class ShippingMethodController extends Controller
     }
 
     /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function findOne ($id) {
+        $response = $this->shippingMethodService->findOne($id);
+        return response()->json([
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'shippingMethod' => $response['shippingMethod']
+        ]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function findAll () {
+        $response = $this->shippingMethodService->findAll();
+        return response()->json([
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'shippingMethods' => $response['shippingMethods']
+        ]);
+    }
+
+    /**
      * @param Request $request
      * @return JsonResponse
      */
@@ -26,8 +51,8 @@ class ShippingMethodController extends Controller
         try {
             // TODO: Validation required
             $name = $request->name;
-            $createShippingMethodResponse = $this->shippingMethodService->create($name);
-            return response()->json(['success' => true, 'message' => $createShippingMethodResponse['message']]);
+            $response = $this->shippingMethodService->create($name);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -42,8 +67,8 @@ class ShippingMethodController extends Controller
             // TODO: Validation required
             $shippingMethodId = $request->shippingMethodId;
             $name = $request->name;
-            $updateShippingMethodResponse = $this->shippingMethodService->update($shippingMethodId,$name);
-            return response()->json(['success' => true, 'message' => $updateShippingMethodResponse['message']]);
+            $response = $this->shippingMethodService->update($shippingMethodId,$name);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -52,22 +77,7 @@ class ShippingMethodController extends Controller
         }
     }
 
-    /**
-     * @param $id
-     * @return JsonResponse
-     */
-    public function find ($id) {
-        $shippingMethod = $this->shippingMethodService->find($id);
-        return response()->json(['success' => false, 'book' => $shippingMethod]);
-    }
 
-    /**
-     * @return JsonResponse
-     */
-    public function shippingMethods () {
-        $shippingMethods = $this->shippingMethodService->shippingMethods();
-        return response()->json(['success' => false, 'book' => $shippingMethods]);
-    }
 
     /**
      * @param $id
@@ -75,8 +85,8 @@ class ShippingMethodController extends Controller
      */
     public function delete ($id) {
         try {
-            $deleteShippingMethodResponse = $this->shippingMethodService->delete($id);
-            return response()->json(['success' => true, 'message' => $deleteShippingMethodResponse['message']]);
+            $response = $this->shippingMethodService->delete($id);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => true, 'message' => $e->getMessage()]);
         }

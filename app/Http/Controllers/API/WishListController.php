@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\WishListService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class WishListController extends Controller
 {
@@ -15,20 +15,20 @@ class WishListController extends Controller
     /**
      * WishListController constructor.
      */
-    public function __construct () {
+    public function __construct() {
         $this->wishListService = new WishListService();
     }
 
     /**
      * @return JsonResponse
      */
-    public function viewWishList () {
+    public function findByUser() {
         $user = Auth::user();
-        $viewWishListResponse = $this->wishListService->view($user->id);
+        $response = $this->wishListService->findByUser($user->id);
         return response()->json([
-            'success' => false,
-            'message' => $viewWishListResponse['message'],
-            'response' => $viewWishListResponse
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'wishList' => $response['wishList']
         ]);
     }
 
@@ -36,13 +36,13 @@ class WishListController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function addToWishList (Request $request) {
+    public function add(Request $request) {
         try {
             //TODO Need to validate
             $bookId = $request->id;
             $user = Auth::user();
-            $addToWishListResponse = $this->wishListService->add($user->id,$bookId);
-            return response()->json(['success' => true, 'message' => $addToWishListResponse['message']]);
+            $response = $this->wishListService->add($user->id, $bookId);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
 
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -53,12 +53,12 @@ class WishListController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function removeFromWishList (Request $request) {
+    public function remove(Request $request) {
         try {
             //TODO Need to validate
             $bookId = $request->id;
-            $removeFromWishListResponse  =  $this->wishListService->remove($bookId);
-            return response()->json(['success' => true, 'message' => $removeFromWishListResponse['message']]);
+            $response = $this->wishListService->remove($bookId);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }

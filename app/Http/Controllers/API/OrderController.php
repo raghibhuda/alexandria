@@ -23,13 +23,13 @@ class OrderController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function placeOrder (Request $request) {
+    public function place(Request $request) {
         try {
             $user = Auth::user();
             $shippingData = $request->shippingData;
             $orderData = $request->orderData;
-            $placeOrderResponse = $this->orderService->place($user->id,$shippingData,$orderData);
-            return response()->json(['success' => true, 'message' => $placeOrderResponse['message']]);
+            $response = $this->orderService->place($user->id, $shippingData, $orderData);
+            return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
@@ -38,25 +38,25 @@ class OrderController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getUserOrders () {
+    public function findByUser() {
         $user = Auth::user();
-        $userOrders = $this->orderService->get($user->id);
+        $response = $this->orderService->findByUser($user->id);
         return response()->json([
-            'success' => true,
-            'message' => $userOrders['message'],
-            'orders' => $userOrders['orders']
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'orders' => $response['orders']
         ]);
     }
 
     /**
      * @return JsonResponse
      */
-    public function orders () {
-        $allOrders  = $this->orderService->orders();
+    public function findAll() {
+        $response = $this->orderService->findAll();
         return response()->json([
-            'success' => true,
-            'message' => $allOrders['message'],
-            'orders' => $allOrders['orders']
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'orders' => $response['orders']
         ]);
     }
 
@@ -64,12 +64,12 @@ class OrderController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function order (int $id) {
-        $order = $this->orderService->find($id);
+    public function findOne(int $id) {
+        $response = $this->orderService->findOne($id);
         return response()->json([
-            'success' => $order['success'],
-            'message' => $order['message'],
-            'order' => $order['order']
+            'success' => $response['success'],
+            'message' => $response['message'],
+            'order' => $response['order']
         ]);
     }
 

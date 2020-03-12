@@ -32,7 +32,7 @@ class ShippingMethodService
     /**
      * @return ShippingMethod[]|Collection
      */
-    public function findAll():array {
+    public function findAll(): array {
         $shippingMethods = ShippingMethod::all();
         return [
             'success' => true,
@@ -60,13 +60,13 @@ class ShippingMethodService
 
 
     /**
-     * @param int $shipping_method_id
+     * @param int $shippingMethodId
      * @param string $name
      * @return array
      */
-    public function update(int $shipping_method_id, string $name): array {
+    public function update(int $shippingMethodId, string $name): array {
         try {
-            $shippingMethod = ShippingMethod::where('id', $shipping_method_id)->update([
+            $shippingMethod = ShippingMethod::where('id', $shippingMethodId)->update([
                 'name' => $name,
             ]);
             if (!$shippingMethod) {
@@ -80,19 +80,19 @@ class ShippingMethodService
     }
 
     /**
-     * @param int $shipping_method_id
+     * @param int $shippingMethodId
      * @return array
      */
-    public function delete(int $shipping_method_id): array {
+    public function delete(int $shippingMethodId): array {
         try {
-            $shippingMethod = ShippingMethod::where('id', $shipping_method_id)->delete();
+            $shippingMethod = ShippingMethod::where('id', $shippingMethodId)->delete();
             if (!$shippingMethod) {
                 return ['success' => false, 'message' => __('Shipping Method not found')];
             }
 
             return ['success' => true, 'message' => __('Shipping Method has been deleted')];
         } catch (Exception $e) {
-            return ['success' => false, 'message' => __('Something went wrong')];
+            return ['success' => false, 'message' => __('Failed to delete Shipping Method')];
         }
     }
 }
