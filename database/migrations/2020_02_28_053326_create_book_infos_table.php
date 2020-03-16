@@ -21,7 +21,7 @@ class CreateBookInfosTable extends Migration
             $table->unsignedInteger('quantity');
             $table->tinyInteger('in_stock')->default(BOOK_IN_STOCK);
             $table->integer('total_pages');
-            $table->string('isbn_number');
+            $table->string('isbn_number')->unique();
             $table->string('language');
             $table->string('characters')->nullable();
             $table->string('series_name')->nullable();
