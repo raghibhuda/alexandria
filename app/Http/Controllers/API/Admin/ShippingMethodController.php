@@ -14,8 +14,8 @@ class ShippingMethodController extends Controller
     /**
      * ShippingMethodController constructor.
      */
-    public function __construct () {
-        $this->shippingMethodService = new ShippingMethodService();
+    public function __construct (ShippingMethodService $shippingMethodService) {
+        $this->shippingMethodService = $shippingMethodService;
     }
 
     /**
@@ -25,9 +25,9 @@ class ShippingMethodController extends Controller
     public function findOne ($id) {
         $response = $this->shippingMethodService->findOne($id);
         return response()->json([
-            'success' => $response['success'],
-            'message' => $response['message'],
-            'shippingMethod' => $response['shippingMethod']
+            'success'           => $response['success'],
+            'message'           => $response['message'],
+            'shippingMethod'    => $response['shippingMethod']
         ]);
     }
 
@@ -37,9 +37,9 @@ class ShippingMethodController extends Controller
     public function findAll () {
         $response = $this->shippingMethodService->findAll();
         return response()->json([
-            'success' => $response['success'],
-            'message' => $response['message'],
-            'shippingMethods' => $response['shippingMethods']
+            'success'           => $response['success'],
+            'message'           => $response['message'],
+            'shippingMethods'   => $response['shippingMethods']
         ]);
     }
 
@@ -50,8 +50,8 @@ class ShippingMethodController extends Controller
     public function create (Request $request) {
         try {
             // TODO: Validation required
-            $name = $request->name;
-            $response = $this->shippingMethodService->create($name);
+            $name       = $request->name;
+            $response   = $this->shippingMethodService->create($name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -65,9 +65,9 @@ class ShippingMethodController extends Controller
     public function update (Request $request) {
         try {
             // TODO: Validation required
-            $shippingMethodId = $request->shippingMethodId;
-            $name = $request->name;
-            $response = $this->shippingMethodService->update($shippingMethodId,$name);
+            $shippingMethodId   = $request->shippingMethodId;
+            $name               = $request->name;
+            $response           = $this->shippingMethodService->update($shippingMethodId,$name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json([

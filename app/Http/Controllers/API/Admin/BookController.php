@@ -14,8 +14,8 @@ class BookController extends Controller
     /**
      * BookController constructor.
      */
-    public function __construct() {
-        $this->bookService = new BookService();
+    public function __construct(BookService $bookService) {
+        $this->bookService = $bookService;
     }
 
     /**
@@ -27,7 +27,7 @@ class BookController extends Controller
         return response()->json([
             'success' => $response['success'],
             'message' => $response['message'],
-            'book' => $response['book']
+            'book'    => $response['book']
         ]);
     }
 
@@ -39,7 +39,7 @@ class BookController extends Controller
         return response()->json([
             'success' => $response['success'],
             'message' => $response['message'],
-            'books' => $response['books'],
+            'books'   => $response['books'],
         ]);
     }
 
@@ -50,12 +50,12 @@ class BookController extends Controller
     public function create(Request $request) {
         try {
             //Validation required
-            $name = $request->name;
-            $categoryId = $request->categoryId;
-            $authorId = $request->authorId;
-            $publicationId = $request->publicationId;
-            $data = $request->data;
-            $response = $this->bookService->create($name, $categoryId, $authorId, $publicationId, $data);
+            $name           = $request->name;
+            $categoryId     = $request->categoryId;
+            $authorId       = $request->authorId;
+            $publicationId  = $request->publicationId;
+            $data           = $request->data;
+            $response       = $this->bookService->create($name, $categoryId, $authorId, $publicationId, $data);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -69,13 +69,13 @@ class BookController extends Controller
     public function update(Request $request) {
         try {
             //Validation required
-            $bookId = $request->bookId;
-            $name = $request->name;
-            $categoryId = $request->categoryId;
-            $authorId = $request->authorId;
-            $publicationId = $request->publicationId;
-            $data = $request->data;
-            $response = $this->bookService->update($bookId, $name, $categoryId, $authorId, $publicationId, $data);
+            $bookId         = $request->bookId;
+            $name           = $request->name;
+            $categoryId     = $request->categoryId;
+            $authorId       = $request->authorId;
+            $publicationId  = $request->publicationId;
+            $data           = $request->data;
+            $response       = $this->bookService->update($bookId, $name, $categoryId, $authorId, $publicationId, $data);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
