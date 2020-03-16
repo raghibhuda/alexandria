@@ -6,7 +6,6 @@ use App\Services\WishListService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class WishListController extends Controller
 {
@@ -15,19 +14,19 @@ class WishListController extends Controller
     /**
      * WishListController constructor.
      */
-    public function __construct() {
-        $this->wishListService = new WishListService();
+    public function __construct(WishListService $wishListService) {
+        $this->wishListService = $wishListService;
     }
 
     /**
      * @return JsonResponse
      */
     public function findByUser() {
-        $user = Auth::user();
+        $user     = auth()->user();
         $response = $this->wishListService->findByUser($user->id);
         return response()->json([
-            'success' => $response['success'],
-            'message' => $response['message'],
+            'success'  => $response['success'],
+            'message'  => $response['message'],
             'wishList' => $response['wishList']
         ]);
     }
@@ -39,8 +38,8 @@ class WishListController extends Controller
     public function add(Request $request) {
         try {
             //TODO Need to validate
-            $bookId = $request->id;
-            $user = Auth::user();
+            $bookId   = $request->id;
+            $user     = auth()->user();
             $response = $this->wishListService->add($user->id, $bookId);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
 
@@ -56,7 +55,7 @@ class WishListController extends Controller
     public function remove(Request $request) {
         try {
             //TODO Need to validate
-            $bookId = $request->id;
+            $bookId   = $request->id;
             $response = $this->wishListService->remove($bookId);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {

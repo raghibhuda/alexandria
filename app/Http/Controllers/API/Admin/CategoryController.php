@@ -14,8 +14,8 @@ class CategoryController extends Controller
     /**
      * PaymentMethodController constructor.
      */
-    public function __construct() {
-        $this->categoryService = new CategoryService();
+    public function __construct(CategoryService $categoryService) {
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -25,8 +25,8 @@ class CategoryController extends Controller
     public function findOne($id) {
         $response = $this->categoryService->findOne($id);
         return response()->json([
-            'success' => $response['success'],
-            'message' => $response['message'],
+            'success'  => $response['success'],
+            'message'  => $response['message'],
             'category' => $response['category']
         ]);
     }
@@ -37,8 +37,8 @@ class CategoryController extends Controller
     public function findAll() {
         $response = $this->categoryService->findAll();
         return response()->json([
-            'success' => $response['success'],
-            'message' => $response['message'],
+            'success'    => $response['success'],
+            'message'    => $response['message'],
             'categories' => $response['categories']
         ]);
     }
@@ -50,7 +50,7 @@ class CategoryController extends Controller
     public function create(Request $request) {
         try {
             //Validation required
-            $name = $request->name;
+            $name     = $request->name;
             $response = $this->categoryService->create($name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
@@ -66,8 +66,8 @@ class CategoryController extends Controller
         try {
             //Validation required
             $categoryId = $request->categoryId;
-            $name = $request->name;
-            $response = $this->categoryService->update($categoryId, $name);
+            $name       = $request->name;
+            $response   = $this->categoryService->update($categoryId, $name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);

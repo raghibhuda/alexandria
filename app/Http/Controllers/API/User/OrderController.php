@@ -6,7 +6,6 @@ use App\Services\OrderService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -15,8 +14,8 @@ class OrderController extends Controller
     /**
      * OrderController constructor
      */
-    public function __construct() {
-        $this->orderService = new OrderService();
+    public function __construct(OrderService $orderService) {
+        $this->orderService = $orderService;
     }
 
     /**
@@ -25,10 +24,10 @@ class OrderController extends Controller
      */
     public function place(Request $request) {
         try {
-            $user = Auth::user();
-            $shippingData = $request->shippingData;
-            $orderData = $request->orderData;
-            $response = $this->orderService->place($user->id, $shippingData, $orderData);
+            $user           = auth()->user();
+            $shippingData   = $request->shippingData;
+            $orderData      = $request->orderData;
+            $response       = $this->orderService->place($user->id, $shippingData, $orderData);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -39,7 +38,7 @@ class OrderController extends Controller
      * @return JsonResponse
      */
     public function findByUser() {
-        $user = Auth::user();
+        $user     = auth()->user();
         $response = $this->orderService->findByUser($user->id);
         return response()->json([
             'success' => $response['success'],

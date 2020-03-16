@@ -14,8 +14,8 @@ class AuthorController extends Controller
     /**
      * AuthorController constructor.
      */
-    public function __construct() {
-        $this->authorService = new AuthorService();
+    public function __construct(AuthorService $authorService) {
+        $this->authorService = $authorService;
     }
 
     /**
@@ -27,7 +27,7 @@ class AuthorController extends Controller
         return response()->json([
             'success' => $response['success'],
             'message' => $response['message'],
-            'author' => $response['author'],
+            'author'  => $response['author'],
         ]);
     }
 
@@ -50,8 +50,8 @@ class AuthorController extends Controller
     public function create(Request $request) {
         try {
             // TODO: Validation required
-            $name = $request->name;
-            $bio = $request->bio;
+            $name     = $request->name;
+            $bio      = $request->bio;
             $response = $this->authorService->create($name, $bio);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
@@ -62,10 +62,10 @@ class AuthorController extends Controller
     public function update(Request $request) {
         try {
             // TODO: Validation required
-            $authorId = $request->authorId;
-            $name = $request->name;
-            $bio = $request->bio;
-            $response = $this->authorService->update($authorId, $name, $bio);
+            $authorId   = $request->authorId;
+            $name       = $request->name;
+            $bio        = $request->bio;
+            $response   = $this->authorService->update($authorId, $name, $bio);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);

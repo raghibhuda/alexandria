@@ -12,8 +12,8 @@ class OrderController extends Controller
     /**
      * OrderController constructor
      */
-    public function __construct() {
-        $this->orderService = new OrderService();
+    public function __construct(OrderService $orderService) {
+        $this->orderService = $orderService;
     }
 
     /**
@@ -24,7 +24,7 @@ class OrderController extends Controller
         return response()->json([
             'success' => $response['success'],
             'message' => $response['message'],
-            'orders' => $response['orders']
+            'orders'  => $response['orders']
         ]);
     }
 
@@ -37,7 +37,7 @@ class OrderController extends Controller
         return response()->json([
             'success' => $response['success'],
             'message' => $response['message'],
-            'order' => $response['order']
+            'order'   => $response['order']
         ]);
     }
 

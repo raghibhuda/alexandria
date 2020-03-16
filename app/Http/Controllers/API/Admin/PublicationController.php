@@ -14,8 +14,8 @@ class PublicationController extends Controller
     /**
      * PublicationController constructor.
      */
-    public function __construct() {
-        $this->publicationService = new PublicationService();
+    public function __construct(PublicationService $publicationService) {
+        $this->publicationService = $publicationService;
     }
 
     /**
@@ -25,9 +25,9 @@ class PublicationController extends Controller
     public function findOne($id) {
         $response = $this->publicationService->findOne($id);
         return response()->json([
-            'success' => $response['success'],
-            'message' => $response['message'],
-            'publication' => $response['publication'],
+            'success'       => $response['success'],
+            'message'       => $response['message'],
+            'publication'   => $response['publication'],
         ]);
     }
 
@@ -37,9 +37,9 @@ class PublicationController extends Controller
     public function findAll() {
         $response = $this->publicationService->findAll();
         return response()->json([
-            'success' => $response['success'],
-            'message' => $response['message'],
-            'publication' => $response['publication'],
+            'success'       => $response['success'],
+            'message'       => $response['message'],
+            'publication'   => $response['publication'],
         ]);
     }
 
@@ -50,8 +50,8 @@ class PublicationController extends Controller
     public function create(Request $request) {
         try {
             //Validation required
-            $name = $request->name;
-            $response = $this->publicationService->create($name);
+            $name       = $request->name;
+            $response   = $this->publicationService->create($name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
@@ -65,9 +65,9 @@ class PublicationController extends Controller
     public function update(Request $request) {
         try {
             //Validation required
-            $publicationId = $request->publicationId;
-            $name = $request->name;
-            $response = $this->publicationService->update($publicationId, $name);
+            $publicationId  = $request->publicationId;
+            $name           = $request->name;
+            $response       = $this->publicationService->update($publicationId, $name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
