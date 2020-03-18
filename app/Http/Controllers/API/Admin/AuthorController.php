@@ -6,6 +6,7 @@ use App\Services\Admin\AuthorService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AuthorController extends Controller
 {
@@ -49,9 +50,16 @@ class AuthorController extends Controller
      */
     public function create(Request $request) {
         try {
-            // TODO: Validation required
             $name = $request->name;
             $bio = $request->bio;
+            $rules = [
+                'name' => 'required|max:255',
+                'bio' => 'required|min:255',
+            ];
+            $validator = Validator::make([$name,$bio], $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+            }
             $response = $this->authorService->create($name, $bio);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
@@ -61,10 +69,19 @@ class AuthorController extends Controller
 
     public function update(Request $request) {
         try {
-            // TODO: Validation required
             $authorId = $request->authorId;
             $name = $request->name;
             $bio = $request->bio;
+            $rules = [
+                'authorId' => 'required|integer|min:1|max:18446744073709551615',
+                'name' => 'required|max:255',
+                'bio' => 'required|min:255',
+            ];
+            $validator = Validator::make([$authorId,$name,$bio], $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+            }
+
             $response = $this->authorService->update($authorId, $name, $bio);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
