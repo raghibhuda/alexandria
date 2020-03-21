@@ -104,8 +104,7 @@ class OrderService
                 'user_id' => $userId,
                 'shipping_method_id' => $shippingData['shippingMethodId'],
                 'address' => $shippingData['address'],
-                'shipped_on' => $shippingData['shippedOn'],
-                'contact' => $shippingData['address'],
+                'contact' => $shippingData['contact'],
             ]);
             return ['success' => true, 'shippingId' => $shipping->id, 'message' => __('Sipping has been created')];
         } catch (Exception $e) {
