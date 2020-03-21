@@ -6,6 +6,7 @@ use App\Services\Admin\PublicationService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PublicationController extends Controller
 {
@@ -49,8 +50,14 @@ class PublicationController extends Controller
      */
     public function create(Request $request) {
         try {
-            //Validation required
             $name = $request->name;
+            $rules = [
+                'name' => 'required|max:255',
+            ];
+            $validator = Validator::make([$name], $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+            }
             $response = $this->publicationService->create($name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
@@ -64,9 +71,16 @@ class PublicationController extends Controller
      */
     public function update(Request $request) {
         try {
-            //Validation required
             $publicationId = $request->publicationId;
             $name = $request->name;
+            $rules = [
+                'publicationId' => 'required|integer|min:1|max:18446744073709551615',
+                'name' => 'required|max:255',
+            ];
+            $validator = Validator::make([$publicationId, $name], $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+            }
             $response = $this->publicationService->update($publicationId, $name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {

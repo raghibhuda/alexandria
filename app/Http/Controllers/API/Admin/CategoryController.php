@@ -6,6 +6,7 @@ use App\Services\Admin\CategoryService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -49,8 +50,14 @@ class CategoryController extends Controller
      */
     public function create(Request $request) {
         try {
-            //Validation required
             $name = $request->name;
+            $rules = [
+                'name' => 'required|max:255',
+            ];
+            $validator = Validator::make([$name], $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+            }
             $response = $this->categoryService->create($name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
@@ -64,9 +71,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request) {
         try {
-            //Validation required
-            $categoryId = $request->categoryId;
             $name = $request->name;
+            $categoryId = $request->categoryId;
+            $rules = [
+                'categoryId' => 'required|integer|min:1|max:18446744073709551615',
+                'name' => 'required|max:255',
+            ];
+            $validator = Validator::make([$categoryId, $name], $rules);
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'message' => $validator->errors()->first()]);
+            }
             $response = $this->categoryService->update($categoryId, $name);
             return response()->json(['success' => $response['success'], 'message' => $response['message']]);
         } catch (Exception $e) {
