@@ -49,7 +49,7 @@ class OrderService
     public function findByUser(int $userId) {
         $orders = Order::where('user_id', $userId);
         if (!$orders) {
-            return ['success' => false, 'message' => __('User not found')];
+            return ['success' => false, 'message' => __('Customer not found')];
         }
         return [
             'success' => true,

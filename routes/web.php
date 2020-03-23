@@ -19,10 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// User route
+// Customer route
 Route::group(['middleware' => ['user']], function () {
     Route::get('/user/dashboard',function (){
-        return ('User Dashboard');
+        return ('Customer Dashboard');
     })->name('user.dashboard');
 });
 // Admin route

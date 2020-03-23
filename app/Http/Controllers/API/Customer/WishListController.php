@@ -22,7 +22,7 @@ class WishListController extends Controller
     /**
      * @return JsonResponse
      */
-    public function findByUser() {
+    public function view() {
         $user = Auth::user();
         $response = $this->wishListService->findByUser($user->id);
         return response()->json([
